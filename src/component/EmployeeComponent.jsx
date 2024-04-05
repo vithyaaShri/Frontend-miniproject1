@@ -5,6 +5,7 @@ import {
   saveEmployee,
   updateEmployee,
 } from "../../public/services/EmployeeService";
+import Swal from "sweetalert2";
 import Job from "../images/Job.png";
 
 //This Page is for Updating Employee Details by Admin
@@ -14,6 +15,7 @@ const EmployeeComponent = () => {
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
+   const [error, setError] = useState(false);
 //Will change Page Title based on the Request
   const pageTitle = () => {
     return id ? (
@@ -24,6 +26,17 @@ const EmployeeComponent = () => {
   };
   const addorUpdateEmployee = async (e) => {
     e.preventDefault();
+    if(firstname===""){
+      setError(true);
+      console.log(error);
+      Swal.fire("First Name cannot be empty");
+    }
+    else if(email===""){
+      setError(true);
+      console.log(error);
+      Swal.fire("Email Name cannot be empty");
+    }
+    else{
     const employee = { firstname, lastname, email };
     console.log(employee);
     try {
@@ -36,6 +49,7 @@ const EmployeeComponent = () => {
       }
     } catch (error) {
       console.log(error);
+    }
     }
   };
   //Fetch the Employee Detail AS soon as page is loaded
@@ -81,6 +95,7 @@ const EmployeeComponent = () => {
                     type="text"
                     className="form-control"
                     placeholder="Enter FirstName"
+                     error={!!error}
                     name="firstName"
                     value={firstname}
                     onChange={(e) => setFirstName(e.target.value)}
@@ -103,6 +118,7 @@ const EmployeeComponent = () => {
                     type="text"
                     className="form-control"
                     placeholder="Enter Email"
+                     error={!!error}
                     name="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
