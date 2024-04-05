@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginAPICall, saveLoggedInUser, storeToken } from "../../public/services/AuthService";
 import Employee2 from "../images/Employee2.webp"
+import Swal from "sweetalert2";
 //This will login the User based on Spring security.
 //For Admin we can Update Delete employee Detail and Add employee
 //If logged in as Employee v can only view Details of employee
