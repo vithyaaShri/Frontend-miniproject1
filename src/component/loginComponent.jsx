@@ -8,10 +8,22 @@ import Employee2 from "../images/Employee2.webp"
 const LoginComponent = () => {
     const[username,setUsername]=useState("");
     const[password,setPassword]=useState("");
+     const [error, setError] = useState(false);
     const navigate=useNavigate();
 
     const handleLoginForm=async(e)=>{
         e.preventDefault();
+        if(username===""){
+          setError(true);
+          console.log(error);
+          Swal.fire("User Name cannot be empty")
+        }
+        else if(password===""){
+          setError(true);
+          console.log(error);
+          Swal.fire("Password cannot be empty")
+        }
+        else{
         try {
             const response=await loginAPICall(username,password);  
             const token="Bearer "+response.data.accessToken;
@@ -24,7 +36,7 @@ const LoginComponent = () => {
         } catch (error) {
           console.log(error);  
         }
-        
+        }  
 
     }
   return (
@@ -56,6 +68,7 @@ const LoginComponent = () => {
                     <input
                       type="text"
                       name="username"
+                        error={!!error}
                       className="form-control"
                       placeholder="Enter Username"
                       value={username}
@@ -69,6 +82,7 @@ const LoginComponent = () => {
                     <input
                       type="password"
                       name="password"
+                        error={!!error}
                       className="form-control"
                       placeholder="Enter Password"
                       value={password}
