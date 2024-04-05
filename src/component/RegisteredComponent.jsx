@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { registerAPICall } from '../../public/services/AuthService';
 import { useNavigate } from 'react-router-dom';
 import what from "../images/what.webp"
+import Swal from "sweetalert2";
 //This Component is to Register Employee Using a Registration Form For them Which will get Login detail from User Security Page
 const RegisteredComponent = () => {
     const[username,setUsername]=useState("");
@@ -9,9 +10,27 @@ const RegisteredComponent = () => {
     const[password,setPassword]=useState("");
     const[email,setEmail]=useState("");
     const navigate=useNavigate();
+     const [error, setError] = useState(false);
 
     const handleRegistrationForm=async(e)=>{
         e.preventDefault();
+        if (username === "") {
+      setError(true);
+      console.log(error);
+      Swal.fire("User Name cannot be empty");
+    } else if (password === "") {
+      setError(true);
+      console.log(error);
+      Swal.fire("Password cannot be empty");
+    } else if (email === "") {
+      setError(true);
+      console.log(error);
+      Swal.fire("Email cannot be empty");
+    } else if (name === "") {
+      setError(true);
+      console.log(error);
+      Swal.fire("Name cannot be empty");
+    } else {
         try {
             const registerobj={name,username,password,email};
             const response=await registerAPICall(registerobj); 
@@ -21,6 +40,7 @@ const RegisteredComponent = () => {
         } catch (error) {
           console.log(error);  
         }
+    }
     }
 
     
@@ -54,6 +74,7 @@ const RegisteredComponent = () => {
                         <input
                           type="text"
                           name="Name"
+                         error={!!error}
                           className="form-control"
                           placeholder="Enter Name"
                           value={name}
@@ -67,6 +88,7 @@ const RegisteredComponent = () => {
                         <input
                           type="text"
                           name="username"
+                           error={!!error}
                           className="form-control"
                           placeholder="Enter Username"
                           value={username}
@@ -80,6 +102,7 @@ const RegisteredComponent = () => {
                         <input
                           type="password"
                           name="password"
+                          error={!!error}
                           className="form-control"
                           placeholder="Enter Password"
                           value={password}
@@ -93,7 +116,8 @@ const RegisteredComponent = () => {
                         <input
                           type="email"
                           name="email"
-                          className="form-control"
+                         error={!!error}
+                        className="form-control"
                           placeholder="Enter Email"
                           value={email}
                           onChange={(e)=>setEmail(e.target.value)}
